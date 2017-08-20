@@ -18,7 +18,7 @@
 #-N  parameter used by STAR. According to the manual, it(i.e. genomeSAindexNbases) must be scaled down to min(14, log2(GenomeLength)/2 - 2)  
 #-t  number of threads used by STAR to map reads to genome.  
 #  
-#To complete the data set I downloaded the following files. 
+#To complete the data set I downloaded the following files.  
 #Using the sratoolkit from ncbi, I downloaded the files for the MiSeq data set:  
 #http://www.ncbi.nlm.nih.gov/sra/?term=SRR961514  
 #by running the command  
