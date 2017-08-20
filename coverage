@@ -1,5 +1,5 @@
  #!/bin/bash
- # coverage -1 forward_reads.fastq -2 reverse_reads.fastq -x reference_genome.fasta [optional: ]-Q 30 -o out_name -N 3 -t 4
+ # coverage -1 forward_reads.fastq -2 reverse_reads.fastq -x reference_genome.fasta -Q 30 [optional: ]-o out_name -N 3 -t 4
 OUT_NAME='' #default output prefix
 INDEX_SIZE=3 # according to the STAR manual, INDEX_SIZE (i.e. genomeSAindexNbases) must be scaled down to min(14, log2(GenomeLength)/2 - 2). For the example, HIV (9719 bp): this upper limit is 5.623.
 NUMBER_OF_THREADS=2 # number of threads to use when mapping RNA-seq reads to genome
@@ -27,8 +27,6 @@ STAR  --runMode genomeGenerate --genomeSAindexNbases $INDEX_SIZE --runThreadN $N
 trimmomatic PE $READS1 $READS2 $READS1.trimmed _junk1 $READS2.trimmed _junk2 LEADING:0 TRAILING:0 AVGQUAL:$QUALITY
 rm _junk1 #trimmomatic likes to output unpaired fastq files as well, not good for mapping purposes so I delete them
 rm _junk2
-#alternatively, if the _junk files are too big, you can use the program:
-#python QC_filter $READS1 $READS2 $READS1.trimmed $READS2.trimmed $QUALITY
 
 #Map RNA-seq reads to $REFERENCE genome
 STAR --genomeDir ${REFERENCE}_index runThreadN $NUMBER_OF_THREADS --readFilesIn $READS1.trimmed  $READS2.trimmed --outFileNamePrefix ${OUT_NAME}STAR_map

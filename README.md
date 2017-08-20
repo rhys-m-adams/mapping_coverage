@@ -4,7 +4,15 @@
 #The following files were created:  
 #analyze_coverage.py - outputs figures based on coverage and GC scores  
 #correlation.pdf - sample output for test HIV data sets, with QC score threshold 38  
-#coverage - main pipeline.  
+#coverage - main pipeline.  Usage is  
+# coverage -1 forward_reads.fastq -2 reverse_reads.fastq -x reference_genome.fasta -Q 30 [optional: ] -o out_name -N 3 -t 4  
+# -1  forward fastq reads
+# -2  referse fastq reads
+# -x  reference genome
+# -Q  reads with average quality scores less than this option are filtered out (e.g. less than 30)
+# -o  output name prefix
+# -N  parameter used by STAR. According to the manual, it(i.e. genomeSAindexNbases) must be scaled down to min(14, log2(GenomeLength)/2 - 2)
+# -t  number of threads used by STAR to map reads to genome.
 #coverage.pdf - sample output for test HIV data sets comparing GC to coverage, with QC filter of 38
 #install.md - files needed to be installed for coverage to work  
 #mapping_report.bib, mapping_report.pdf, mapping_report.tex - tex file analyzing results   
