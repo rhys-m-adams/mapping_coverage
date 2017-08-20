@@ -1,7 +1,7 @@
 # mapping_coverage
 #This repository details a basic pipeline for mapping RNA-seq data to a genomic reference. 
 #  
-#The following files were created:
+#The following files were created:  
 #analyze_coverage.py - outputs figures based on coverage and GC scores  
 #correlation.pdf - sample output for test HIV data sets, with QC score threshold 38  
 #coverage - main pipeline.  
