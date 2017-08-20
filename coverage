@@ -1,0 +1,52 @@
+ #!/bin/bash
+ # coverage -1 forward_reads.fastq -2 reverse_reads.fastq -x reference_genome.fasta [optional: ]-Q 30 -o out_name -N 3 -t 4
+OUT_NAME='' #default output prefix
+INDEX_SIZE=3 # according to the STAR manual, INDEX_SIZE (i.e. genomeSAindexNbases) must be scaled down to min(14, log2(GenomeLength)/2 - 2). For the example, HIV (9719 bp): this upper limit is 5.623.
+NUMBER_OF_THREADS=2 # number of threads to use when mapping RNA-seq reads to genome
+WINDOW_SIZE=100 #window size for calculating GC content
+ while getopts 1:2:x:Q:o:N:t: option
+ do
+  case "${option}"
+  in
+  1) READS1=${OPTARG};;
+  2) READS2=${OPTARG};;
+  x) REFERENCE=${OPTARG};;
+  Q) QUALITY=$OPTARG;;
+  o) OUT_NAME=$OPTARG;;
+  N) INDEX_SIZE=$OPTARG;;
+  t) NUMBER_OF_THREADS=$OPTARG;;
+  w) WINDOW_SIZE=$OPTARG
+  esac
+ done
+
+#make a directory to store STAR indices, and then make the indices for faster mapping
+mkdir ${REFERENCE}_index
+STAR  --runMode genomeGenerate --genomeSAindexNbases $INDEX_SIZE --runThreadN $NUMBER_OF_THREADS --genomeDir ${REFERENCE}_index --genomeFastaFiles $REFERENCE
+
+#filter out sequences with average phred scores below $QUALITY
+trimmomatic PE $READS1 $READS2 $READS1.trimmed _junk1 $READS2.trimmed _junk2 LEADING:0 TRAILING:0 AVGQUAL:$QUALITY
+rm _junk1 #trimmomatic likes to output unpaired fastq files as well, not good for mapping purposes so I delete them
+rm _junk2
+#alternatively, if the _junk files are too big, you can use the program:
+#python QC_filter $READS1 $READS2 $READS1.trimmed $READS2.trimmed $QUALITY
+
+#Map RNA-seq reads to $REFERENCE genome
+STAR --genomeDir ${REFERENCE}_index runThreadN $NUMBER_OF_THREADS --readFilesIn $READS1.trimmed  $READS2.trimmed --outFileNamePrefix ${OUT_NAME}STAR_map
+rm $READS1.trimmed  #clean up QC trimmed fastq files
+rm $READS2.trimmed
+
+#convert STAR output, the SAM file, to bam format, sort. -b specifies bam output
+samtools view -b ${OUT_NAME}STAR_mapAligned.out.sam -o ${OUT_NAME}STAR_map.bam
+samtools sort ${OUT_NAME}STAR_map.bam -o ${OUT_NAME}STAR_map.sort.bam
+
+#bedtools outputs a tsv with coverage
+# -d -split ignores introns and outputs at each position, -ibam specifies bam as the input file
+bedtools genomecov -d -split -ibam ${OUT_NAME}STAR_map.sort.bam > ${OUT_NAME}coverage.tsv
+
+#custom script for analyzing read mapping.
+#1st argument, bedtools genomecov coverage file
+#2nd argument, reference/genomic fasta sequence
+#3rd argument, output name
+#4th argument, windowsize for averaging GC content and count content
+python analyize_coverage.py ${OUT_NAME}coverage.tsv $REFERENCE $WINDOW_SIZE $OUT_NAME
+
