@@ -3,7 +3,8 @@
 #Using the sratoolkit from ncbi, I downloaded the files for the MiSeq data set:  
 #http://www.ncbi.nlm.nih.gov/sra/?term=SRR961514  
 #and ran the command  
-#./fastq-dump --split-3 SRR961514  
+./fastq-dump --split-3 SRR961514  
+  
 #I downloaded the reference HIV genome in fasta format:  
 #http://www.ncbi.nlm.nih.gov/nuccore/K03455.1
 #The Miseq data sets were put into the ./reads directory, and the reference was placed into the ./reference directory  
