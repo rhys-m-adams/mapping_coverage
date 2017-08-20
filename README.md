@@ -8,7 +8,7 @@
 #install.md - files needed to be installed for coverage to work  
 #mapping_report.bib, mapping_report.pdf, mapping_report.tex - tex file analyzing results   
 #STAR_out - folder containg mapping figures with quality score thresholds 0, 10, 20, 30  
-#coverage - main pipeline.  Usage is  
+#coverage - main pipeline. Coverage is a bash script and can be read with the cat command.  Usage is  
 #coverage -1 forward_reads.fastq -2 reverse_reads.fastq -x reference_genome.fasta -Q 30 [optional: ] -o out_name -N 3 -t 4  
 #-1  forward fastq reads  
 #-2  referse fastq reads  
