@@ -1,5 +1,5 @@
 # mapping_coverage
-
+#This repository details a basic pipeline for mapping RNA-seq data to a genomic reference. To complete the data set I downloaded the following files. 
 #Using the sratoolkit from ncbi, I downloaded the files for the MiSeq data set:  
 #http://www.ncbi.nlm.nih.gov/sra/?term=SRR961514  
 #by running the command  
@@ -8,6 +8,13 @@
 #I downloaded the reference HIV genome in fasta format from:  
 #http://www.ncbi.nlm.nih.gov/nuccore/K03455.1
 #The Miseq data sets were put into the ./reads directory, and the reference was placed into the ./reference directory  
+#analyze_coverage.py - outputs figures based on coverage and GC scores  
+#correlation.pdf - sample output for test HIV data sets, with QC score threshold 38  
+#coverage - main pipeline.  
+#coverage.pdf - sample output for test HIV data sets comparing GC to coverage, with QC filter of 38
+#install.md - files needed to be installed for coverage to work  
+#mapping_report.bib, mapping_report.pdf, mapping_report.tex - tex file analyzing results   
+#STAR_out - folder containg mapping figures with quality score thresholds 0, 10, 20, 30
 #  
 #To test my pipeline, I ran it filtering quality scores of 0, 10, 20, and 30.  
 #I tested my pipeline with the following commands  
