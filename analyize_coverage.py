@@ -20,7 +20,7 @@ def plot_genome(pos, attribute, attribute_name, file_prefix):
     # file_prefix, name of output file
     fig = plt.figure(figsize=(7.3, 2))
     ax = fig.add_axes([0.12,0.25,0.82,0.6])
-    ax.plot(pos, counts, drawstyle='steps-pre')
+    ax.plot(pos, attribute, drawstyle='steps-pre')
     ax.set_xlabel('position (bp)')
     ax.set_ylabel(attribute_name)
     plt.savefig('%s.pdf'%file_prefix)
