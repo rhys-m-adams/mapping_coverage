@@ -1,5 +1,5 @@
  #!/bin/bash
- # coverage -1 forward_reads.fastq -2 reverse_reads.fastq -x reference_genome.fasta -Q 30 [optional: ]-o out_name -N 3 -t 4
+ # coverage -1 forward_reads.fastq -2 reverse_reads.fastq -x reference_genome.fasta -Q 30 [optional: ]-o out_name -N 3 -t 4 -w 100
 OUT_NAME='' #default output prefix
 INDEX_SIZE=3 # according to the STAR manual, INDEX_SIZE (i.e. genomeSAindexNbases) must be scaled down to min(14, log2(GenomeLength)/2 - 2). For the example, HIV (9719 bp): this upper limit is 5.623.
 NUMBER_OF_THREADS=2 # number of threads to use when mapping RNA-seq reads to genome
